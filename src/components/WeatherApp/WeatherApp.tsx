@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { Search, MapPin, Star, Sun, Moon } from 'lucide-react';
 import { Card } from '../card/Card';
-
+import { useWeather } from '../../hooks/UseWeather';
+import { useLocalStorage } from '../../hooks/UseLocalStorage';
+import { weatherService } from '../../services/WeatherApi';
+import type { SavedLocation, TemperatureUnit, Theme, ForecastMode } from '../../types/Weather';
+import { getTemperatureUnit, generateId } from '../../utils/Helpers'
 import styles from './WeatherApp.module.css';
 
+interface AppSettings {
+  savedLocations: SavedLocation[];
+  temperatureUnit: TemperatureUnit;
+  theme: Theme;
+}
+
+const defaultSettings: AppSettings = {
+  savedLocations: [],
+  temperatureUnit: 'celsius',
+  theme: 'light'
+};
 
 export const WeatherApp: React.FC = () => {
   const {
@@ -25,7 +41,28 @@ export const WeatherApp: React.FC = () => {
     getCurrentLocation(settings.temperatureUnit);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.className = settings.theme;
+  }, [settings.theme]);
 
+  const updateSettings = (updates: Partial<AppSettings>) => {
+    setSettings(prev => ({ ...prev, ...updates }));
+  };
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+    
+    const result = await searchLocation(searchQuery, settings.temperatureUnit);
+    if (result) {
+      setSearchQuery('');
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   const saveCurrentLocation = async () => {
     if (!currentWeather) return;
@@ -54,7 +91,32 @@ export const WeatherApp: React.FC = () => {
     await searchLocation(location.name, settings.temperatureUnit);
   };
 
- 
+  const removeSavedLocation = (locationId: string) => {
+    updateSettings({
+      savedLocations: settings.savedLocations.filter(loc => loc.id !== locationId)
+    });
+  };
+
+  const toggleTemperatureUnit = () => {
+    const newUnit: TemperatureUnit = settings.temperatureUnit === 'celsius' ? 'fahrenheit' : 'celsius';
+    updateSettings({ temperatureUnit: newUnit });
+    
+    if (currentWeather) {
+      getCurrentLocation(newUnit);
+    }
+  };
+
+  const toggleTheme = () => {
+    const newTheme: Theme = settings.theme === 'light' ? 'dark' : 'light';
+    updateSettings({ theme: newTheme });
+  };
+
+  const focusSearchInput = () => {
+    const searchInput = document.querySelector(`.${styles.searchInput}`) as HTMLInputElement;
+    if (searchInput) {
+      searchInput.focus();
+    }
+  };
 
   return (
     <div className={`${styles.app} ${styles[settings.theme]}`}>
@@ -71,23 +133,20 @@ export const WeatherApp: React.FC = () => {
               <button 
                 className={`${styles.unitBtn} ${settings.temperatureUnit === 'celsius' ? styles.active : ''}`}
                 onClick={toggleTemperatureUnit}
-                aria-label="Switch to Celsius"
               >
                 °C
               </button>
               <button 
                 className={`${styles.unitBtn} ${settings.temperatureUnit === 'fahrenheit' ? styles.active : ''}`}
                 onClick={toggleTemperatureUnit}
-                aria-label="Switch to Fahrenheit"
               >
                 °F
               </button>
               <button 
                 className={styles.themeBtn}
                 onClick={toggleTheme}
-                aria-label={`Switch to ${settings.theme === 'light' ? 'dark' : 'light'} theme`}
               >
-
+                {settings.theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
               </button>
             </div>
           </div>
@@ -95,7 +154,7 @@ export const WeatherApp: React.FC = () => {
 
         <Card className={styles.searchCard} hover={false}>
           <div className={styles.searchContainer}>
-
+            <Search className={styles.searchIcon} size={20} />
             <input
               type="text"
               placeholder="Search for a city..."
@@ -103,23 +162,19 @@ export const WeatherApp: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={handleKeyPress}
               className={styles.searchInput}
-              aria-label="Search for a city"
             />
             <button 
               onClick={handleSearch}
               className={styles.searchBtn}
               disabled={isLoading || !searchQuery.trim()}
-              aria-label="Search"
             >
               Search
             </button>
             <button 
               onClick={() => getCurrentLocation(settings.temperatureUnit)}
               className={styles.locationBtn}
-              title="Use current location"
-              aria-label="Use current location"
             >
-
+              <MapPin size={20} />
             </button>
           </div>
         </Card>
@@ -130,7 +185,6 @@ export const WeatherApp: React.FC = () => {
             <button 
               onClick={clearError}
               className={styles.dismissBtn}
-              aria-label="Dismiss error"
             >
               ×
             </button>
@@ -150,17 +204,15 @@ export const WeatherApp: React.FC = () => {
           <Card className={styles.weatherCard}>
             <div className={styles.weatherHeader}>
               <div className={styles.locationInfo}>
-
+                <MapPin size={16} />
                 <span>{currentWeather.location}</span>
                 <span className={styles.country}>{currentWeather.country}</span>
               </div>
               <button 
                 onClick={saveCurrentLocation}
                 className={styles.saveBtn}
-                title="Save location"
-                aria-label="Save current location"
               >
-
+                <Star size={16} />
                 Save
               </button>
             </div>
@@ -168,12 +220,12 @@ export const WeatherApp: React.FC = () => {
             <div className={styles.weatherMain}>
               <div className={styles.weatherLeft}>
                 <img 
-                  src={}
+                  src={weatherService.getWeatherIconUrl(currentWeather.icon)}
                   alt={currentWeather.condition}
                   className={styles.weatherIcon}
                 />
                 <div className={styles.temperatureMain}>
-}
+                  {currentWeather.temperature}{getTemperatureUnit(settings.temperatureUnit)}
                 </div>
                 <div className={styles.condition}>
                   {currentWeather.condition}
@@ -183,7 +235,7 @@ export const WeatherApp: React.FC = () => {
               <div className={styles.weatherDetails}>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>Feels like</span>
-                  <span></span>
+                  <span>{currentWeather.feelsLike}{getTemperatureUnit(settings.temperatureUnit)}</span>
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>Humidity</span>
@@ -195,11 +247,7 @@ export const WeatherApp: React.FC = () => {
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>UV Index</span>
-                  <span>{currentWeather.uvIndex} Moderate</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Air Quality</span>
-                  <span>{currentWeather.airQuality}</span>
+                  <span>{currentWeather.uvIndex}</span>
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>Visibility</span>
@@ -216,14 +264,12 @@ export const WeatherApp: React.FC = () => {
               <button 
                 className={`${styles.forecastToggle} ${forecastMode === 'hourly' ? styles.active : ''}`}
                 onClick={() => setForecastMode('hourly')}
-                aria-label="Show hourly forecast"
               >
                 Hourly Forecast
               </button>
               <button 
                 className={`${styles.forecastToggle} ${forecastMode === 'daily' ? styles.active : ''}`}
                 onClick={() => setForecastMode('daily')}
-                aria-label="Show daily forecast"
               >
                 7-Day Forecast
               </button>
@@ -234,12 +280,12 @@ export const WeatherApp: React.FC = () => {
                 <div key={index} className={styles.forecastItem}>
                   <div className={styles.forecastTime}>{item.time}</div>
                   <img 
-                    src={}
+                    src={weatherService.getWeatherIconUrl(item.icon)}
                     alt={item.condition}
                     className={styles.forecastIcon}
                   />
                   <div className={styles.forecastTemp}>
-
+                    {item.temperature}{getTemperatureUnit(settings.temperatureUnit)}
                   </div>
                 </div>
               ))}
@@ -249,7 +295,7 @@ export const WeatherApp: React.FC = () => {
 
         <Card className={styles.savedCard}>
           <div className={styles.savedHeader}>
-
+            <Star size={16} />
             <span>Saved Locations</span>
           </div>
           
@@ -273,9 +319,8 @@ export const WeatherApp: React.FC = () => {
                       loadSavedLocation(location);
                     }
                   }}
-                  aria-label={`Load weather for ${location.name}, ${location.country}`}
                 >
-
+                  <MapPin size={14} />
                   <div className={styles.savedLocationInfo}>
                     <div className={styles.savedLocationName}>{location.name}</div>
                     <div className={styles.savedLocationCountry}>{location.country}</div>
@@ -286,16 +331,14 @@ export const WeatherApp: React.FC = () => {
                       e.stopPropagation();
                       removeSavedLocation(location.id);
                     }}
-                    aria-label={`Remove ${location.name} from saved locations`}
                   >
-
+                    ×
                   </button>
                 </div>
               ))}
               <button 
                 className={styles.addLocationBtn}
                 onClick={focusSearchInput}
-                aria-label="Add new location"
               >
                 <span>+</span>
                 Add Location
