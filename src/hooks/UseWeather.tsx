@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { weatherService } from '../services/WeatherApi';
-import type { WeatherData, ForecastItem, SavedLocation, TemperatureUnit } from '../types/Weather';
+import type { WeatherData, ForecastItem, TemperatureUnit } from '../types/Weather';
 
 export function useWeather() {
   const [currentWeather, setCurrentWeather] = useState<WeatherData | null>(null);
@@ -33,8 +33,7 @@ export function useWeather() {
         coords: { lat, lon }
       });
       
-    } catch (error) {
-      console.error('Weather fetch error:', error);
+    } catch {
       setError('Failed to fetch weather data. Please try again.');
       
       const cachedData = weatherService.getCachedWeatherData();
@@ -65,8 +64,7 @@ export function useWeather() {
         setError('Location not found. Please try a different search.');
         return null;
       }
-    } catch (error) {
-      console.error('Search error:', error);
+    } catch {
       setError('Search failed. Please try again.');
       return null;
     } finally {
@@ -88,8 +86,7 @@ export function useWeather() {
         const { latitude, longitude } = position.coords;
         fetchWeatherByCoords(latitude, longitude, temperatureUnit);
       },
-      (error) => {
-        console.error('Geolocation error:', error);
+      () => {
         setError('Unable to get your location. Please search for a city.');
         setIsLoading(false);
       },
