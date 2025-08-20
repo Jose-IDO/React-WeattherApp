@@ -31,7 +31,6 @@ class WeatherService {
       feelsLike: Math.round(data.main.feels_like),
       uvIndex: 5,
       visibility: Math.round(data.visibility / 1000),
-      airQuality: 'Good',
       icon: data.weather[0].icon
     };
   }
@@ -89,18 +88,6 @@ class WeatherService {
     
     if (!response.ok) {
       throw new Error('Failed to search location');
-    }
-    
-    return response.json();
-  }
-
-  async reverseGeocode(lat: number, lon: number): Promise<GeocodingApiResponse[]> {
-    const response = await fetch(
-      `${GEO_BASE}/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${API_KEY}`
-    );
-    
-    if (!response.ok) {
-      throw new Error('Failed to reverse geocode');
     }
     
     return response.json();
