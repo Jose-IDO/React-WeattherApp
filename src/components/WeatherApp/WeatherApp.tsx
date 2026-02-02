@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Star, Sun, Moon } from 'lucide-react';
+import { Star, Sun, Moon, MapPin } from 'lucide-react';
 import { Card } from '../card/Card';
+import { Button } from '../Button/Button';
+import { Text } from '../Text/Text';
+import { SearchBar } from '../SearchBar/SearchBar';
+import { WeatherDetail } from '../WeatherDetail/WeatherDetail';
+import { ForecastItem as ForecastItemComponent } from '../ForecastItem/ForecastItem';
 import { useWeather } from '../../hooks/UseWeather';
 import { useLocalStorage } from '../../hooks/UseLocalStorage';
 import { weatherService } from '../../services/WeatherApi';
@@ -57,12 +62,6 @@ export const WeatherApp: React.FC = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
   const saveCurrentLocation = async () => {
     if (!currentWeather) return;
     
@@ -110,11 +109,8 @@ export const WeatherApp: React.FC = () => {
     updateSettings({ theme: newTheme });
   };
 
-  const focusSearchInput = () => {
-    const searchInput = document.querySelector(`.${styles.searchInput}`) as HTMLInputElement;
-    if (searchInput) {
-      searchInput.focus();
-    }
+  const handleLocationClick = () => {
+    getCurrentLocation(settings.temperatureUnit);
   };
 
   return (
@@ -124,69 +120,65 @@ export const WeatherApp: React.FC = () => {
       <div className={styles.container}>
         <Card className={styles.header} hover={false}>
           <div className={styles.headerContent}>
-            <div className={styles.appTitle}>
+            <Text variant="heading" className={styles.appTitle}>
               <span className={styles.icon}>☁️</span>
               Weather App
-            </div>
+            </Text>
             <div className={styles.headerControls}>
-              <button 
-                className={`${styles.unitBtn} ${settings.temperatureUnit === 'celsius' ? styles.active : ''}`}
+              <Button
+                variant={settings.temperatureUnit === 'celsius' ? 'primary' : 'outline'}
+                size="small"
                 onClick={toggleTemperatureUnit}
+                className={styles.unitBtn}
               >
                 °C
-              </button>
-              <button 
-                className={`${styles.unitBtn} ${settings.temperatureUnit === 'fahrenheit' ? styles.active : ''}`}
+              </Button>
+              <Button
+                variant={settings.temperatureUnit === 'fahrenheit' ? 'primary' : 'outline'}
+                size="small"
                 onClick={toggleTemperatureUnit}
+                className={styles.unitBtn}
               >
                 °F
-              </button>
-              <button 
-                className={styles.themeBtn}
+              </Button>
+              <Button
+                variant="icon"
+                size="small"
                 onClick={toggleTheme}
+                className={styles.themeBtn}
+                ariaLabel="Toggle theme"
               >
                 {settings.theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-              </button>
+              </Button>
             </div>
           </div>
         </Card>
 
         <Card className={styles.searchCard} hover={false}>
-          <div className={styles.searchContainer}>
-            <Search className={styles.searchIcon} size={20} />
-            <input
-              type="text"
-              placeholder="Search for a city..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className={styles.searchInput}
-            />
-            <button 
-              onClick={handleSearch}
-              className={styles.searchBtn}
-              disabled={isLoading || !searchQuery.trim()}
-            >
-              Search
-            </button>
-            <button 
-              onClick={() => getCurrentLocation(settings.temperatureUnit)}
-              className={styles.locationBtn}
-            >
-              <MapPin size={20} />
-            </button>
-          </div>
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            onSearch={handleSearch}
+            onLocationClick={handleLocationClick}
+            disabled={isLoading}
+            isLoading={isLoading}
+          />
         </Card>
 
         {error && (
           <Card className={styles.errorCard} hover={false}>
-            <p className={styles.errorText}>{error}</p>
-            <button 
+            <Text variant="body" color="white" className={styles.errorText}>
+              {error}
+            </Text>
+            <Button
+              variant="icon"
+              size="small"
               onClick={clearError}
               className={styles.dismissBtn}
+              ariaLabel="Dismiss error"
             >
               ×
-            </button>
+            </Button>
           </Card>
         )}
 
@@ -194,7 +186,7 @@ export const WeatherApp: React.FC = () => {
           <Card className={styles.loadingCard} hover={false}>
             <div className={styles.loading}>
               <div className={styles.loadingSpinner}></div>
-              <p>Loading weather data...</p>
+              <Text variant="body" color="secondary">Loading weather data...</Text>
             </div>
           </Card>
         )}
@@ -204,16 +196,22 @@ export const WeatherApp: React.FC = () => {
             <div className={styles.weatherHeader}>
               <div className={styles.locationInfo}>
                 <MapPin size={16} />
-                <span>{currentWeather.location}</span>
-                <span className={styles.country}>{currentWeather.country}</span>
+                <Text variant="subheading" weight="semibold">
+                  {currentWeather.location}
+                </Text>
+                <Text variant="body" color="secondary" className={styles.country}>
+                  {currentWeather.country}
+                </Text>
               </div>
-              <button 
+              <Button
+                variant="secondary"
+                size="small"
                 onClick={saveCurrentLocation}
                 className={styles.saveBtn}
               >
                 <Star size={16} />
                 Save
-              </button>
+              </Button>
             </div>
             
             <div className={styles.weatherMain}>
@@ -223,35 +221,35 @@ export const WeatherApp: React.FC = () => {
                   alt={currentWeather.condition}
                   className={styles.weatherIcon}
                 />
-                <div className={styles.temperatureMain}>
+                <Text variant="heading" size="xlarge" className={styles.temperatureMain}>
                   {currentWeather.temperature}{getTemperatureUnit(settings.temperatureUnit)}
-                </div>
-                <div className={styles.condition}>
+                </Text>
+                <Text variant="body" size="large" color="secondary" className={styles.condition}>
                   {currentWeather.condition}
-                </div>
+                </Text>
               </div>
               
               <div className={styles.weatherDetails}>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Feels like</span>
-                  <span>{currentWeather.feelsLike}{getTemperatureUnit(settings.temperatureUnit)}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Humidity</span>
-                  <span>{currentWeather.humidity}%</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Wind Speed</span>
-                  <span>{currentWeather.windSpeed} km/h</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>UV Index</span>
-                  <span>{currentWeather.uvIndex}</span>
-                </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>Visibility</span>
-                  <span>{currentWeather.visibility} km</span>
-                </div>
+                <WeatherDetail
+                  label="Feels like"
+                  value={`${currentWeather.feelsLike}${getTemperatureUnit(settings.temperatureUnit)}`}
+                />
+                <WeatherDetail
+                  label="Humidity"
+                  value={`${currentWeather.humidity}%`}
+                />
+                <WeatherDetail
+                  label="Wind Speed"
+                  value={`${currentWeather.windSpeed} km/h`}
+                />
+                <WeatherDetail
+                  label="UV Index"
+                  value={currentWeather.uvIndex.toString()}
+                />
+                <WeatherDetail
+                  label="Visibility"
+                  value={`${currentWeather.visibility} km`}
+                />
               </div>
             </div>
           </Card>
@@ -260,33 +258,35 @@ export const WeatherApp: React.FC = () => {
         {(hourlyForecast.length > 0 || dailyForecast.length > 0) && (
           <Card className={styles.forecastCard}>
             <div className={styles.forecastHeader}>
-              <button 
-                className={`${styles.forecastToggle} ${forecastMode === 'hourly' ? styles.active : ''}`}
+              <Button
+                variant={forecastMode === 'hourly' ? 'primary' : 'outline'}
+                size="medium"
                 onClick={() => setForecastMode('hourly')}
+                className={styles.forecastToggle}
               >
                 Hourly Forecast
-              </button>
-              <button 
-                className={`${styles.forecastToggle} ${forecastMode === 'daily' ? styles.active : ''}`}
+              </Button>
+              <Button
+                variant={forecastMode === 'daily' ? 'primary' : 'outline'}
+                size="medium"
                 onClick={() => setForecastMode('daily')}
+                className={styles.forecastToggle}
               >
                 7-Day Forecast
-              </button>
+              </Button>
             </div>
             
             <div className={styles.forecastGrid}>
               {(forecastMode === 'hourly' ? hourlyForecast : dailyForecast).map((item, index) => (
-                <div key={index} className={styles.forecastItem}>
-                  <div className={styles.forecastTime}>{item.time}</div>
-                  <img 
-                    src={weatherService.getWeatherIconUrl(item.icon)}
-                    alt={item.condition}
-                    className={styles.forecastIcon}
-                  />
-                  <div className={styles.forecastTemp}>
-                    {item.temperature}{getTemperatureUnit(settings.temperatureUnit)}
-                  </div>
-                </div>
+                <ForecastItemComponent
+                  key={index}
+                  time={item.time}
+                  temperature={item.temperature}
+                  condition={item.condition}
+                  icon={item.icon}
+                  iconUrl={weatherService.getWeatherIconUrl(item.icon)}
+                  temperatureUnit={getTemperatureUnit(settings.temperatureUnit)}
+                />
               ))}
             </div>
           </Card>
@@ -295,13 +295,15 @@ export const WeatherApp: React.FC = () => {
         <Card className={styles.savedCard}>
           <div className={styles.savedHeader}>
             <Star size={16} />
-            <span>Saved Locations</span>
+            <Text variant="subheading" weight="semibold">Saved Locations</Text>
           </div>
           
           {settings.savedLocations.length === 0 ? (
             <div className={styles.emptyState}>
-              <p>No saved locations yet</p>
-              <p className={styles.emptySubtext}>Search for a location and save it to see it here</p>
+              <Text variant="body" color="secondary">No saved locations yet</Text>
+              <Text variant="caption" color="muted" className={styles.emptySubtext}>
+                Search for a location and save it to see it here
+              </Text>
             </div>
           ) : (
             <div className={styles.savedGrid}>
@@ -321,27 +323,41 @@ export const WeatherApp: React.FC = () => {
                 >
                   <MapPin size={14} />
                   <div className={styles.savedLocationInfo}>
-                    <div className={styles.savedLocationName}>{location.name}</div>
-                    <div className={styles.savedLocationCountry}>{location.country}</div>
+                    <Text variant="body" weight="semibold" className={styles.savedLocationName}>
+                      {location.name}
+                    </Text>
+                    <Text variant="caption" color="secondary" className={styles.savedLocationCountry}>
+                      {location.country}
+                    </Text>
                   </div>
-                  <button 
-                    className={styles.removeBtn}
+                  <Button
+                    variant="danger"
+                    size="small"
                     onClick={(e) => {
                       e.stopPropagation();
                       removeSavedLocation(location.id);
                     }}
+                    className={styles.removeBtn}
+                    ariaLabel="Remove location"
                   >
                     ×
-                  </button>
+                  </Button>
                 </div>
               ))}
-              <button 
+              <Button
+                variant="outline"
+                size="medium"
+                onClick={() => {
+                  const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+                  if (searchInput) {
+                    searchInput.focus();
+                  }
+                }}
                 className={styles.addLocationBtn}
-                onClick={focusSearchInput}
               >
                 <span>+</span>
                 Add Location
-              </button>
+              </Button>
             </div>
           )}
         </Card>

@@ -1,0 +1,124 @@
+.button {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button:focus {
+  outline: 2px solid #74b9ff;
+  outline-offset: 2px;
+}
+
+.primary {
+  background: #74b9ff;
+  color: white;
+}
+
+.primary:hover:not(:disabled) {
+  background: #0984e3;
+  transform: translateY(-1px);
+}
+
+.secondary {
+  background: transparent;
+  border: 2px solid #74b9ff;
+  color: #74b9ff;
+}
+
+.secondary:hover:not(:disabled) {
+  background: #74b9ff;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.outline {
+  background: transparent;
+  border: 2px solid #e1e5e9;
+  color: #2d3436;
+}
+
+.outline:hover:not(:disabled) {
+  background: #f8f9fa;
+  transform: scale(1.05);
+}
+
+.outline.active {
+  background: white;
+  color: #2d3436;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: #74b9ff;
+}
+
+.icon {
+  background: transparent;
+  border: 2px solid #ddd;
+  color: #2d3436;
+  padding: 8px;
+}
+
+.icon:hover:not(:disabled) {
+  background: #f8f9fa;
+  transform: scale(1.05);
+}
+
+.danger {
+  background: rgba(255, 107, 107, 0.8);
+  color: white;
+}
+
+.danger:hover:not(:disabled) {
+  background: #ff6b6b;
+  transform: scale(1.1);
+}
+
+.small {
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.medium {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.large {
+  padding: 16px 32px;
+  font-size: 18px;
+}
+
+:global(.dark) .outline {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e1e5e9;
+}
+
+:global(.dark) .outline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .outline.active {
+  background: rgba(116, 185, 255, 0.2);
+  color: #e1e5e9;
+  border-color: #74b9ff;
+}
+
+:global(.dark) .icon {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e1e5e9;
+}
+
+:global(.dark) .icon:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}

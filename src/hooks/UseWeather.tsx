@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { weatherService } from '../services/WeatherApi';
+import { notificationService } from '../services/NotificationService';
 import type { WeatherData, ForecastItem, TemperatureUnit } from '../types/Weather';
 
 export function useWeather() {
@@ -8,6 +9,11 @@ export function useWeather() {
   const [dailyForecast, setDailyForecast] = useState<ForecastItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    notificationService.registerServiceWorker();
+    notificationService.requestPermission();
+  }, []);
 
   const fetchWeatherByCoords = useCallback(async (
     lat: number, 
@@ -32,6 +38,15 @@ export function useWeather() {
         forecastData,
         coords: { lat, lon }
       });
+
+      if (weatherService.isSevereWeather(weatherData.condition, weatherData.windSpeed)) {
+        const details = `Wind: ${weatherData.windSpeed} km/h, Condition: ${weatherData.condition}`;
+        await notificationService.notifySevereWeather(
+          weatherData.location,
+          weatherData.condition,
+          details
+        );
+      }
       
     } catch {
       setError('Failed to fetch weather data. Please try again.');
@@ -86,13 +101,28 @@ export function useWeather() {
         const { latitude, longitude } = position.coords;
         fetchWeatherByCoords(latitude, longitude, temperatureUnit);
       },
-      () => {
-        setError('Unable to get your location. Please search for a city.');
+      (error) => {
+        let errorMessage = 'Unable to get your location. ';
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage += 'Please allow location access in your browser settings.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage += 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorMessage += 'Location request timed out.';
+            break;
+          default:
+            errorMessage += 'Please search for a city.';
+            break;
+        }
+        setError(errorMessage);
         setIsLoading(false);
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000,
+        timeout: 15000,
         maximumAge: 300000
       }
     );
