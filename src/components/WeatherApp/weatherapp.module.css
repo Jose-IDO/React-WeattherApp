@@ -1,41 +1,14 @@
 .app {
   min-height: 100vh;
-  max-height: 100vh;
   position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
+  padding-bottom: 40px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  overflow-y: auto;
   overflow-x: hidden;
-}
-
-.app::-webkit-scrollbar {
-  width: 10px;
-}
-
-.app::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-}
-
-.app::-webkit-scrollbar-thumb {
-  background: rgba(116, 185, 255, 0.5);
-  border-radius: 10px;
-}
-
-.app::-webkit-scrollbar-thumb:hover {
-  background: rgba(116, 185, 255, 0.7);
-}
-
-.app.dark::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.app.dark::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.app.dark::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
 }
 
 .background {
@@ -49,11 +22,14 @@
 }
 
 .app.dark .background {
-  background: linear-gradient(135deg, #1a1d20 0%, #2d3436 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .container {
-  max-width: 1200px;
+  width: 98%;
+  max-width: 1920px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -62,9 +38,10 @@
 }
 
 .app.dark .card {
-  background: rgba(30, 35, 38, 0.95);
-  color: #e1e5e9;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.97);
+  color: #1a1d20;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .header {
@@ -87,7 +64,7 @@
 }
 
 .app.dark .appTitle {
-  color: #e1e5e9;
+  color: #1a1d20;
 }
 
 .icon {
@@ -108,6 +85,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
+  color: #1a1d20 !important;
 }
 
 .unitBtn:hover {
@@ -118,7 +96,7 @@
 .unitBtn.active {
   background: #74b9ff;
   border-color: #74b9ff;
-  color: white;
+  color: #1a1d20 !important;
 }
 
 .themeBtn {
@@ -173,6 +151,23 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+.offlineBanner {
+  background: rgba(253, 203, 110, 0.95);
+  color: #2d3436;
+  border: 1px solid rgba(253, 203, 110, 0.5);
+}
+
+.app.dark .offlineBanner {
+  background: rgba(253, 203, 110, 0.9);
+  color: #1a1d20;
+  border-color: rgba(253, 203, 110, 0.6);
+}
+
+.offlineBannerText {
+  margin: 0;
+  text-align: center;
+}
+
 .loadingCard {
   text-align: center;
 }
@@ -193,6 +188,15 @@
   border-top: 4px solid #74b9ff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+}
+
+.app.dark .loadingSpinner {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-top-color: #74b9ff;
+}
+
+.app.dark .loading {
+  color: #2d3436;
 }
 
 @keyframes spin {
@@ -217,7 +221,11 @@
 }
 
 .app.dark .locationInfo {
-  color: #e1e5e9;
+  color: #1a1d20;
+}
+
+.app.dark .country {
+  color: #636e72;
 }
 
 .country {
@@ -270,7 +278,7 @@
 }
 
 .app.dark .temperatureMain {
-  color: #e1e5e9;
+  color: #1a1d20;
 }
 
 .condition {
@@ -299,11 +307,11 @@
 }
 
 .app.dark .detailLabel {
-  color: #b2bec3;
+  color: #636e72;
 }
 
 .app.dark .condition {
-  color: #b2bec3;
+  color: #2d3436;
 }
 
 /* Forecast */
@@ -317,7 +325,7 @@
 }
 
 .app.dark .forecastHeader {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .forecastToggle {
@@ -333,21 +341,7 @@
 }
 
 .forecastGrid::-webkit-scrollbar {
-  height: 6px;
-}
-
-.forecastGrid::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-}
-
-.forecastGrid::-webkit-scrollbar-thumb {
-  background: rgba(116, 185, 255, 0.3);
-  border-radius: 10px;
-}
-
-.forecastGrid::-webkit-scrollbar-thumb:hover {
-  background: rgba(116, 185, 255, 0.5);
+  display: none;
 }
 
 .forecastItem {
@@ -384,10 +378,13 @@
 }
 
 .app.dark .forecastTemp {
-  color: #e1e5e9;
+  color: #1a1d20;
 }
 
-/* Saved Locations */
+.app.dark .forecastTime {
+  color: #636e72;
+}
+
 .savedHeader {
   display: flex;
   align-items: center;
@@ -399,12 +396,20 @@
 }
 
 .app.dark .savedHeader {
-  color: #e1e5e9;
+  color: #1a1d20;
 }
 
 .emptyState {
   text-align: center;
   padding: 40px 20px;
+  color: #636e72;
+}
+
+.app.dark .emptyState {
+  color: #2d3436;
+}
+
+.app.dark .emptySubtext {
   color: #636e72;
 }
 
@@ -423,21 +428,7 @@
 }
 
 .savedGrid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.savedGrid::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-}
-
-.savedGrid::-webkit-scrollbar-thumb {
-  background: rgba(116, 185, 255, 0.3);
-  border-radius: 10px;
-}
-
-.savedGrid::-webkit-scrollbar-thumb:hover {
-  background: rgba(116, 185, 255, 0.5);
+  display: none;
 }
 
 .savedLocation {
@@ -502,7 +493,11 @@
 }
 
 .app.dark .savedLocationName {
-  color: #e1e5e9;
+  color: #1a1d20;
+}
+
+.app.dark .savedLocationCountry {
+  color: #636e72;
 }
 
 .savedLocationCountry {
@@ -531,12 +526,21 @@
   transform: translateY(-1px);
 }
 
+.app.dark .addLocationBtn {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #2d3436;
+}
+
+.app.dark .addLocationBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a1d20;
+}
+
 .addLocationBtn span {
   font-size: 24px;
   margin-bottom: 4px;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -554,6 +558,7 @@ input:focus {
 
 @media (max-width: 1200px) {
   .container {
+    width: 98%;
     max-width: 100%;
     padding: 0 15px;
   }
@@ -561,6 +566,7 @@ input:focus {
 
 @media (max-width: 1024px) {
   .container {
+    width: 98%;
     max-width: 100%;
     padding: 0 10px;
   }
@@ -587,6 +593,7 @@ input:focus {
   }
   
   .container {
+    width: 98%;
     gap: 16px;
   }
   
@@ -638,6 +645,7 @@ input:focus {
   }
   
   .container {
+    width: 100%;
     gap: 12px;
   }
   
@@ -685,6 +693,7 @@ input:focus {
   }
   
   .container {
+    width: 100%;
     gap: 10px;
   }
   

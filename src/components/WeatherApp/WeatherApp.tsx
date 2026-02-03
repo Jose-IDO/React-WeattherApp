@@ -11,7 +11,9 @@ import { useLocalStorage } from '../../hooks/UseLocalStorage';
 import { weatherService } from '../../services/WeatherApi';
 import type { SavedLocation, TemperatureUnit, Theme, ForecastMode } from '../../types/Weather';
 import { getTemperatureUnit, generateId } from '../../utils/Helpers'
-import styles from './WeatherApp.module.css';
+import styles from './weatherapp.module.css';
+import dayBg from '../../assets/WeatherAppBackground.png';
+import nightBg from '../../assets/night-lights.jpg';
 
 interface AppSettings {
   savedLocations: SavedLocation[];
@@ -95,10 +97,9 @@ export const WeatherApp: React.FC = () => {
     });
   };
 
-  const toggleTemperatureUnit = () => {
-    const newUnit: TemperatureUnit = settings.temperatureUnit === 'celsius' ? 'fahrenheit' : 'celsius';
+  const setTemperatureUnit = (newUnit: TemperatureUnit) => {
+    if (settings.temperatureUnit === newUnit) return;
     updateSettings({ temperatureUnit: newUnit });
-    
     if (currentWeather) {
       getCurrentLocation(newUnit);
     }
@@ -115,7 +116,23 @@ export const WeatherApp: React.FC = () => {
 
   return (
     <div className={`${styles.app} ${styles[settings.theme]}`}>
-      <div className={styles.background}></div>
+      <div
+        className={styles.background}
+        style={settings.theme === 'dark'
+          ? {
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.5)), url(${nightBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }
+          : {
+              backgroundImage: `url(${dayBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }
+        }
+      />
       
       <div className={styles.container}>
         <Card className={styles.header} hover={false}>
@@ -128,7 +145,7 @@ export const WeatherApp: React.FC = () => {
               <Button
                 variant={settings.temperatureUnit === 'celsius' ? 'primary' : 'outline'}
                 size="small"
-                onClick={toggleTemperatureUnit}
+                onClick={() => setTemperatureUnit('celsius')}
                 className={styles.unitBtn}
               >
                 °C
@@ -136,7 +153,7 @@ export const WeatherApp: React.FC = () => {
               <Button
                 variant={settings.temperatureUnit === 'fahrenheit' ? 'primary' : 'outline'}
                 size="small"
-                onClick={toggleTemperatureUnit}
+                onClick={() => setTemperatureUnit('fahrenheit')}
                 className={styles.unitBtn}
               >
                 °F
@@ -164,6 +181,14 @@ export const WeatherApp: React.FC = () => {
             isLoading={isLoading}
           />
         </Card>
+
+        {!navigator.onLine && currentWeather && (
+          <Card className={styles.offlineBanner} hover={false}>
+            <Text variant="caption" className={styles.offlineBannerText}>
+              You're offline — showing cached data. Connect to the internet for the latest weather.
+            </Text>
+          </Card>
+        )}
 
         {error && (
           <Card className={styles.errorCard} hover={false}>

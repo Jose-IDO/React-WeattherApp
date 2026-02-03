@@ -7,14 +7,14 @@ A modern, responsive weather application built with React, TypeScript, and Vite.
 ### Core Functionality
 - **Real-time Weather Data**: Get current weather conditions and forecasts using OpenWeatherMap API
 - **Location Services**: Automatic location detection with user permission, or manual city search
-- **Temperature Units**: Switch between Celsius and Fahrenheit
+- **Temperature Units**: Switch between Celsius and Fahrenheit (tap °C or °F to select; display updates immediately)
 - **Dark Mode**: Softer dark theme for better readability
 - **Offline Support**: Cached weather data works when internet connection is unavailable
 - **Push Notifications**: Alerts for severe weather conditions (thunderstorms, high winds, etc.)
 
 ### User Experience
 - **Responsive Design**: Optimized for both web and mobile devices
-- **Smooth Scrolling**: Custom scrollbars for better content navigation
+- **Full-page Scroll**: Natural document scrolling in both light and dark mode
 - **Saved Locations**: Save and quickly access favorite locations
 - **Hourly & Daily Forecasts**: View weather predictions for the next 8 hours or 7 days
 - **Accessible**: Keyboard navigation and ARIA labels for screen readers
@@ -124,15 +124,16 @@ src/
 
 ### Responsive Design
 - Mobile-first approach
+- Wide panels (98% width, max 1920px) for better use of screen space
 - Breakpoints: 320px, 480px, 768px, 1024px, 1200px
 - Adaptive grid layouts
 - Touch-friendly interface elements
 - Optimized font sizes and spacing
 
-### Dark Mode
-- Softer color palette for reduced eye strain
-- High contrast text for readability
-- Smooth theme transitions
+### Dark Mode (Night Mode)
+- **Night background**: Custom night image with subtle overlay
+- **Light panels**: Cards use a light background with black text for clear readability
+- **Day background**: Custom day image in light mode (`WeatherAppBackground.png`)
 - Persistent theme preference
 
 ## API Integration
@@ -168,6 +169,15 @@ This project is open source and available under the MIT License.
 - [Vite](https://vitejs.dev/) for build tooling
 
 ## Version History
+
+### v1.1.0
+- Day and night background images from `src/assets`
+- Night mode: light panels with black text for readability
+- Full-page scrolling in both themes
+- Wider panels (98% width, max 1920px)
+- °C / °F buttons: each button selects its unit (no toggling)
+- Offline banner when showing cached data
+- Scrollbars hidden; natural page scroll
 
 ### v1.0.0
 - Initial release

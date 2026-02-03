@@ -81,11 +81,11 @@
 }
 
 :global(.dark) .primary {
-  color: #e1e5e9;
+  color: #1a1d20;
 }
 
 :global(.dark) .secondary {
-  color: #b2bec3;
+  color: #636e72;
 }
 
 :global(.dark) .muted {

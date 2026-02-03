@@ -44,7 +44,6 @@ class WeatherService {
         icon: data.weather[0].icon
       };
 
-      // Cache the data
       const cached = this.getCachedWeatherData() || {};
       this.cacheWeatherData({
         ...cached,

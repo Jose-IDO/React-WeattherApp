@@ -15,6 +15,18 @@ export function useWeather() {
     notificationService.requestPermission();
   }, []);
 
+  useEffect(() => {
+    if (!navigator.onLine) {
+      const cached = weatherService.getCachedWeatherData();
+      if (cached?.weatherData && cached?.forecastData) {
+        setCurrentWeather(cached.weatherData);
+        setHourlyForecast(cached.forecastData.hourly || []);
+        setDailyForecast(cached.forecastData.daily || []);
+        setError(null);
+      }
+    }
+  }, []);
+
   const fetchWeatherByCoords = useCallback(async (
     lat: number, 
     lon: number, 
@@ -80,7 +92,9 @@ export function useWeather() {
         return null;
       }
     } catch {
-      setError('Search failed. Please try again.');
+      setError(!navigator.onLine
+        ? 'You\'re offline. Search is not available. Use the location button to see cached data.'
+        : 'Search failed. Please try again.');
       return null;
     } finally {
       setIsLoading(false);
@@ -90,6 +104,22 @@ export function useWeather() {
   const getCurrentLocation = useCallback(async (temperatureUnit: TemperatureUnit) => {
     if (!navigator.geolocation) {
       setError('Geolocation is not supported by this browser.');
+      return;
+    }
+
+    if (!navigator.onLine) {
+      setIsLoading(true);
+      setError(null);
+      const cached = weatherService.getCachedWeatherData();
+      if (cached?.weatherData && cached?.forecastData) {
+        setCurrentWeather(cached.weatherData);
+        setHourlyForecast(cached.forecastData.hourly || []);
+        setDailyForecast(cached.forecastData.daily || []);
+        setError(null);
+      } else {
+        setError('You\'re offline and no cached data is available. Connect to the internet to load weather.');
+      }
+      setIsLoading(false);
       return;
     }
 

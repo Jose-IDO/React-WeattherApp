@@ -29,11 +29,11 @@
 }
 
 :global(.dark) .forecastItem {
-  background: rgba(116, 185, 255, 0.15);
+  background: rgba(116, 185, 255, 0.12);
 }
 
 :global(.dark) .forecastItem:hover {
-  background: rgba(116, 185, 255, 0.25);
+  background: rgba(116, 185, 255, 0.2);
 }
 
 @keyframes fadeIn {
