@@ -38,10 +38,10 @@
 }
 
 .app.dark .card {
-  background: rgba(255, 255, 255, 0.97);
-  color: #1a1d20;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: rgba(26, 30, 38, 0.94);
+  color: #e8ecf0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
 }
 
 .header {
@@ -64,7 +64,7 @@
 }
 
 .app.dark .appTitle {
-  color: #1a1d20;
+  color: #f7fafc;
 }
 
 .icon {
@@ -99,6 +99,22 @@
   color: #1a1d20 !important;
 }
 
+.app.dark .unitBtn {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f1f5f9 !important;
+}
+
+.app.dark .unitBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.app.dark .unitBtn.active {
+  background: #74b9ff;
+  border-color: #74b9ff;
+  color: #0f172a !important;
+}
+
 .themeBtn {
   padding: 8px;
   border: 2px solid #ddd;
@@ -114,6 +130,16 @@
 .themeBtn:hover {
   background: #f8f9fa;
   transform: scale(1.05);
+}
+
+.app.dark .themeBtn {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f1f5f9;
+}
+
+.app.dark .themeBtn:hover {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .searchCard {
@@ -158,9 +184,9 @@
 }
 
 .app.dark .offlineBanner {
-  background: rgba(253, 203, 110, 0.9);
-  color: #1a1d20;
-  border-color: rgba(253, 203, 110, 0.6);
+  background: rgba(245, 200, 90, 0.95);
+  color: #1a1508;
+  border-color: rgba(245, 200, 90, 0.5);
 }
 
 .offlineBannerText {
@@ -191,12 +217,12 @@
 }
 
 .app.dark .loadingSpinner {
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
   border-top-color: #74b9ff;
 }
 
 .app.dark .loading {
-  color: #2d3436;
+  color: #cbd5e1;
 }
 
 @keyframes spin {
@@ -221,11 +247,11 @@
 }
 
 .app.dark .locationInfo {
-  color: #1a1d20;
+  color: #f7fafc;
 }
 
 .app.dark .country {
-  color: #636e72;
+  color: #b4bcc6;
 }
 
 .country {
@@ -278,7 +304,7 @@
 }
 
 .app.dark .temperatureMain {
-  color: #1a1d20;
+  color: #f7fafc;
 }
 
 .condition {
@@ -301,17 +327,21 @@
   border-bottom: 1px solid rgba(99, 110, 114, 0.2);
 }
 
+.app.dark .detailItem {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
 .detailLabel {
   color: #636e72;
   font-weight: 500;
 }
 
 .app.dark .detailLabel {
-  color: #636e72;
+  color: #b4bcc6;
 }
 
 .app.dark .condition {
-  color: #2d3436;
+  color: #d1d9e0;
 }
 
 /* Forecast */
@@ -325,7 +355,8 @@
 }
 
 .app.dark .forecastHeader {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .forecastToggle {
@@ -377,12 +408,12 @@
   color: #2d3436;
 }
 
-.app.dark .forecastTemp {
-  color: #1a1d20;
+.app.dark .forecastTime {
+  color: #b4bcc6;
 }
 
-.app.dark .forecastTime {
-  color: #636e72;
+.app.dark .forecastTemp {
+  color: #f7fafc;
 }
 
 .savedHeader {
@@ -396,7 +427,7 @@
 }
 
 .app.dark .savedHeader {
-  color: #1a1d20;
+  color: #f7fafc;
 }
 
 .emptyState {
@@ -406,11 +437,11 @@
 }
 
 .app.dark .emptyState {
-  color: #2d3436;
+  color: #cbd5e1;
 }
 
 .app.dark .emptySubtext {
-  color: #636e72;
+  color: #94a3b8;
 }
 
 .emptySubtext {
@@ -454,6 +485,15 @@
   outline-offset: 2px;
 }
 
+.app.dark .savedLocation {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.app.dark .savedLocation:hover {
+  border-color: #74b9ff;
+  background: rgba(116, 185, 255, 0.08);
+}
+
 .removeBtn {
   position: absolute;
   top: 8px;
@@ -493,11 +533,11 @@
 }
 
 .app.dark .savedLocationName {
-  color: #1a1d20;
+  color: #f7fafc;
 }
 
 .app.dark .savedLocationCountry {
-  color: #636e72;
+  color: #b4bcc6;
 }
 
 .savedLocationCountry {
@@ -527,13 +567,13 @@
 }
 
 .app.dark .addLocationBtn {
-  border-color: rgba(0, 0, 0, 0.2);
-  color: #2d3436;
+  border-color: rgba(116, 185, 255, 0.55);
+  color: #7ec8ff;
 }
 
 .app.dark .addLocationBtn:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: #1a1d20;
+  background: rgba(116, 185, 255, 0.12);
+  color: #b8e0ff;
 }
 
 .addLocationBtn span {

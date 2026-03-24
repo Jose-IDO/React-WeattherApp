@@ -72,18 +72,19 @@
 }
 
 :global(.dark) .searchInput {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(0, 0, 0, 0.15);
-  color: #1a1d20;
+  background: rgba(15, 18, 24, 0.85);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #f1f5f9;
 }
 
 :global(.dark) .searchInput::placeholder {
-  color: #636e72;
+  color: #94a3b8;
 }
 
 :global(.dark) .searchInput:focus {
   border-color: #74b9ff;
-  background: #ffffff;
+  background: rgba(15, 18, 24, 0.95);
+  box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.2);
 }
 
 @media (max-width: 768px) {

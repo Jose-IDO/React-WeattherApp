@@ -102,9 +102,9 @@ src/
 ## Features in Detail
 
 ### Offline Support
-- Weather data is cached in localStorage
-- Cache is valid for 24 hours
-- App automatically falls back to cached data when offline
+- **App shell caching**: Service worker caches the app (HTML, JS, CSS) so the app loads on reload when offline
+- **Weather data**: Cached in localStorage (24-hour validity)
+- **How to use**: Load the app once while online (to cache it), then reload works offline—you'll see the last cached weather
 - User-friendly error messages when no cached data is available
 
 ### Push Notifications
@@ -131,8 +131,9 @@ src/
 - Optimized font sizes and spacing
 
 ### Dark Mode (Night Mode)
-- **Night background**: Custom night image with subtle overlay
-- **Light panels**: Cards use a light background with black text for clear readability
+- **Night background**: Custom night image with overlay
+- **Dark UI**: Cards and panels use a dark surface (`#1a1e26`–style) with light, high-contrast text
+- **Controls**: Search, buttons, forecast tiles, and saved locations match the dark theme
 - **Day background**: Custom day image in light mode (`WeatherAppBackground.png`)
 - Persistent theme preference
 

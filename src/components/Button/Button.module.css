@@ -100,27 +100,39 @@
 }
 
 :global(.dark) .outline {
-  border-color: rgba(0, 0, 0, 0.2);
-  color: #1a1d20;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 :global(.dark) .outline:hover:not(:disabled) {
-  background: rgba(0, 0, 0, 0.06);
-  color: #1a1d20;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 :global(.dark) .outline.active {
-  background: rgba(116, 185, 255, 0.2);
-  color: #1a1d20;
+  background: #74b9ff;
+  color: #0f172a;
   border-color: #74b9ff;
 }
 
+:global(.dark) .secondary {
+  border-color: #74b9ff;
+  color: #7ec8ff;
+}
+
+:global(.dark) .secondary:hover:not(:disabled) {
+  background: #74b9ff;
+  color: #0f172a;
+}
+
 :global(.dark) .icon {
-  border-color: rgba(0, 0, 0, 0.2);
-  color: #1a1d20;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 :global(.dark) .icon:hover:not(:disabled) {
-  background: rgba(0, 0, 0, 0.06);
-  color: #1a1d20;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
 }
