@@ -49,17 +49,17 @@ class NotificationService {
   }
 
   async notifySevereWeather(location: string, condition: string, details: string): Promise<void> {
-    await this.showNotification(
-      `Severe Weather Alert: ${location}`,
-      {
-        body: `${condition}: ${details}`,
-        icon: '/vite.svg',
-        badge: '/vite.svg',
-        tag: 'severe-weather',
-        requireInteraction: true,
-        vibrate: [200, 100, 200]
-      }
-    );
+    const options: NotificationOptions = {
+      body: `${condition}: ${details}`,
+      icon: '/vite.svg',
+      badge: '/vite.svg',
+      tag: 'severe-weather',
+      requireInteraction: true,
+    };
+    await this.showNotification(`Severe Weather Alert: ${location}`, {
+      ...options,
+      vibrate: [200, 100, 200],
+    } as NotificationOptions);
   }
 
   getPermissionStatus(): NotificationPermission {

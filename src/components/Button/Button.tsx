@@ -3,7 +3,7 @@ import styles from './Button.module.css';
 
 export interface ButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   variant?: 'primary' | 'secondary' | 'outline' | 'icon' | 'danger';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
