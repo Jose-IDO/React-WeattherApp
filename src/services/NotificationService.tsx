@@ -22,7 +22,12 @@ class NotificationService {
   async registerServiceWorker(): Promise<void> {
     if ('serviceWorker' in navigator) {
       try {
-        this.registration = await navigator.serviceWorker.register('/sw.js');
+        const base = import.meta.env.BASE_URL.endsWith('/')
+          ? import.meta.env.BASE_URL
+          : `${import.meta.env.BASE_URL}/`;
+        this.registration = await navigator.serviceWorker.register(`${base}sw.js`, {
+          scope: base
+        });
         console.log('Service Worker registered');
       } catch (error) {
         console.error('Service Worker registration failed:', error);
