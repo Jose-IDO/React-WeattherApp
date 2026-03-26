@@ -88,6 +88,39 @@
   border-color: rgba(255, 255, 255, 0.28);
 }
 
+.app.dark .weatherGlassPanel .savedHeader {
+  color: #f7fafc;
+}
+
+.app.dark .weatherGlassPanel .savedHeader svg {
+  color: #8ec5ff;
+  flex-shrink: 0;
+}
+
+.app.dark .weatherGlassPanel .savedLocation {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.app.dark .weatherGlassPanel .savedLocation:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(142, 197, 255, 0.45);
+}
+
+.app.dark .weatherGlassPanel .addLocationBtn {
+  border-color: rgba(142, 197, 255, 0.45);
+  color: #b8e0ff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.app.dark .weatherGlassPanel .addLocationBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(142, 197, 255, 0.65);
+  color: #e8f4ff;
+}
+
 .app.dark .card {
   background: rgba(26, 30, 38, 0.94);
   color: #e8ecf0;

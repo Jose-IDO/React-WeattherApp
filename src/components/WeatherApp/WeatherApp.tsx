@@ -332,7 +332,7 @@ export const WeatherApp: React.FC = () => {
           </Card>
         )}
 
-        <Card className={styles.savedCard}>
+        <Card className={`${styles.savedCard} ${glassClass}`.trim()}>
           <div className={styles.savedHeader}>
             <Star size={16} />
             <Text variant="subheading" weight="semibold">Saved Locations</Text>
