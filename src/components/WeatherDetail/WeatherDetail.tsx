@@ -6,19 +6,21 @@ export interface WeatherDetailProps {
   label: string;
   value: string | number;
   className?: string;
+  glassPanel?: boolean;
 }
 
 export const WeatherDetail: React.FC<WeatherDetailProps> = ({
   label,
   value,
-  className = ''
+  className = '',
+  glassPanel = false
 }) => {
   return (
-    <div className={`${styles.detailItem} ${className}`}>
-      <Text variant="label" color="secondary" className={styles.detailLabel}>
+    <div className={`${styles.detailItem} ${glassPanel ? styles.glassPanel : ''} ${className}`}>
+      <Text variant="label" color={glassPanel ? 'white' : 'secondary'} className={styles.detailLabel}>
         {label}
       </Text>
-      <Text variant="body" weight="semibold" className={styles.detailValue}>
+      <Text variant="body" weight="semibold" color={glassPanel ? 'white' : 'primary'} className={styles.detailValue}>
         {value}
       </Text>
     </div>

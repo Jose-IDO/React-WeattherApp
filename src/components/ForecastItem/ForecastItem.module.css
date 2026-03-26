@@ -38,6 +38,24 @@
   border-color: rgba(116, 185, 255, 0.35);
 }
 
+.glassPanel {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glassPanel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glassPanel .forecastTime {
+  color: #e2e8f0 !important;
+}
+
+.glassPanel .forecastTemp {
+  color: #ffffff !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

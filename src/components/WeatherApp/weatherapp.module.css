@@ -37,6 +37,50 @@
   padding-bottom: 20px;
 }
 
+.weatherGlassPanel {
+  background: rgba(0, 0, 0, 0.82) !important;
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.weatherGlassPanel .locationInfo {
+  color: #ffffff;
+}
+
+.weatherGlassPanel .temperatureMain,
+.weatherGlassPanel .condition {
+  color: #ffffff !important;
+}
+
+.weatherGlassMuted {
+  color: #e2e8f0 !important;
+  opacity: 0.95;
+}
+
+.weatherGlassIcon {
+  color: #7ec8ff;
+  flex-shrink: 0;
+}
+
+.weatherGlassPanel .forecastHeader {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.weatherGlassPanel .saveBtn {
+  border-color: #7ec8ff;
+  color: #b8e8ff;
+}
+
+.weatherGlassPanel .saveBtn:hover {
+  background: #74b9ff;
+  color: #0f172a;
+}
+
 .app.dark .card {
   background: rgba(26, 30, 38, 0.94);
   color: #e8ecf0;
@@ -175,23 +219,6 @@
 
 .dismissBtn:hover {
   background: rgba(255, 255, 255, 0.2);
-}
-
-.offlineBanner {
-  background: rgba(253, 203, 110, 0.95);
-  color: #2d3436;
-  border: 1px solid rgba(253, 203, 110, 0.5);
-}
-
-.app.dark .offlineBanner {
-  background: rgba(245, 200, 90, 0.95);
-  color: #1a1508;
-  border-color: rgba(245, 200, 90, 0.5);
-}
-
-.offlineBannerText {
-  margin: 0;
-  text-align: center;
 }
 
 .loadingCard {

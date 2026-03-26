@@ -132,8 +132,9 @@ src/
 
 ### Dark Mode (Night Mode)
 - **Night background**: Custom night image with overlay
-- **Dark UI**: Cards and panels use a dark surface (`#1a1e26`–style) with light, high-contrast text
-- **Controls**: Search, buttons, forecast tiles, and saved locations match the dark theme
+- **Dark UI**: Header, search, and saved-location cards use a dark surface with light text
+- **Weather panels**: Main weather and forecast cards use a **black glass** effect (blur + deep tint) with white and near-white text for strong contrast
+- **Controls**: Search, buttons, and saved locations match the dark theme
 - **Day background**: Custom day image in light mode (`WeatherAppBackground.png`)
 - Persistent theme preference
 
@@ -177,7 +178,7 @@ This project is open source and available under the MIT License.
 - Full-page scrolling in both themes
 - Wider panels (98% width, max 1920px)
 - °C / °F buttons: each button selects its unit (no toggling)
-- Offline banner when showing cached data
+- Weather and forecast panels use a high-contrast black glass (frosted) style
 - Scrollbars hidden; natural page scroll
 
 ### v1.0.0

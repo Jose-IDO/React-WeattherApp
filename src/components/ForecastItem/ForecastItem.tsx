@@ -10,6 +10,7 @@ export interface ForecastItemProps {
   iconUrl: string;
   temperatureUnit: string;
   className?: string;
+  glassPanel?: boolean;
 }
 
 export const ForecastItem: React.FC<ForecastItemProps> = ({
@@ -18,11 +19,12 @@ export const ForecastItem: React.FC<ForecastItemProps> = ({
   condition,
   iconUrl,
   temperatureUnit,
-  className = ''
+  className = '',
+  glassPanel = false
 }) => {
   return (
-    <div className={`${styles.forecastItem} ${className}`}>
-      <Text variant="caption" color="secondary" className={styles.forecastTime}>
+    <div className={`${styles.forecastItem} ${glassPanel ? styles.glassPanel : ''} ${className}`}>
+      <Text variant="caption" color={glassPanel ? 'white' : 'secondary'} className={styles.forecastTime}>
         {time}
       </Text>
       <img 
@@ -30,7 +32,7 @@ export const ForecastItem: React.FC<ForecastItemProps> = ({
         alt={condition}
         className={styles.forecastIcon}
       />
-      <Text variant="body" weight="semibold" className={styles.forecastTemp}>
+      <Text variant="body" weight="semibold" color={glassPanel ? 'white' : 'primary'} className={styles.forecastTemp}>
         {temperature}{temperatureUnit}
       </Text>
     </div>

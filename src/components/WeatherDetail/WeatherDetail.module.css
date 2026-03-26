@@ -19,6 +19,18 @@
   border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
+.glassPanel {
+  border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.glassPanel .detailLabel {
+  color: #d1d5db !important;
+}
+
+.glassPanel .detailValue {
+  color: #ffffff !important;
+}
+
 @media (max-width: 480px) {
   .detailItem {
     padding: 8px 0;

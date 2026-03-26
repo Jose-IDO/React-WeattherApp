@@ -182,14 +182,6 @@ export const WeatherApp: React.FC = () => {
           />
         </Card>
 
-        {!navigator.onLine && currentWeather && (
-          <Card className={styles.offlineBanner} hover={false}>
-            <Text variant="caption" className={styles.offlineBannerText}>
-              You're offline — showing cached data. Connect to the internet for the latest weather.
-            </Text>
-          </Card>
-        )}
-
         {error && (
           <Card className={styles.errorCard} hover={false}>
             <Text variant="body" color="white" className={styles.errorText}>
@@ -217,14 +209,14 @@ export const WeatherApp: React.FC = () => {
         )}
 
         {currentWeather && (
-          <Card className={styles.weatherCard}>
+          <Card className={`${styles.weatherCard} ${styles.weatherGlassPanel}`}>
             <div className={styles.weatherHeader}>
               <div className={styles.locationInfo}>
-                <MapPin size={16} />
-                <Text variant="subheading" weight="semibold">
+                <MapPin size={16} className={styles.weatherGlassIcon} />
+                <Text variant="subheading" weight="semibold" color="white">
                   {currentWeather.location}
                 </Text>
-                <Text variant="body" color="secondary" className={styles.country}>
+                <Text variant="body" color="white" className={styles.weatherGlassMuted}>
                   {currentWeather.country}
                 </Text>
               </div>
@@ -246,32 +238,37 @@ export const WeatherApp: React.FC = () => {
                   alt={currentWeather.condition}
                   className={styles.weatherIcon}
                 />
-                <Text variant="heading" size="xlarge" className={styles.temperatureMain}>
+                <Text variant="heading" size="xlarge" color="white" className={styles.temperatureMain}>
                   {currentWeather.temperature}{getTemperatureUnit(settings.temperatureUnit)}
                 </Text>
-                <Text variant="body" size="large" color="secondary" className={styles.condition}>
+                <Text variant="body" size="large" color="white" className={styles.condition}>
                   {currentWeather.condition}
                 </Text>
               </div>
               
               <div className={styles.weatherDetails}>
                 <WeatherDetail
+                  glassPanel
                   label="Feels like"
                   value={`${currentWeather.feelsLike}${getTemperatureUnit(settings.temperatureUnit)}`}
                 />
                 <WeatherDetail
+                  glassPanel
                   label="Humidity"
                   value={`${currentWeather.humidity}%`}
                 />
                 <WeatherDetail
+                  glassPanel
                   label="Wind Speed"
                   value={`${currentWeather.windSpeed} km/h`}
                 />
                 <WeatherDetail
+                  glassPanel
                   label="UV Index"
                   value={currentWeather.uvIndex.toString()}
                 />
                 <WeatherDetail
+                  glassPanel
                   label="Visibility"
                   value={`${currentWeather.visibility} km`}
                 />
@@ -281,7 +278,7 @@ export const WeatherApp: React.FC = () => {
         )}
 
         {(hourlyForecast.length > 0 || dailyForecast.length > 0) && (
-          <Card className={styles.forecastCard}>
+          <Card className={`${styles.forecastCard} ${styles.weatherGlassPanel}`}>
             <div className={styles.forecastHeader}>
               <Button
                 variant={forecastMode === 'hourly' ? 'primary' : 'outline'}
@@ -305,6 +302,7 @@ export const WeatherApp: React.FC = () => {
               {(forecastMode === 'hourly' ? hourlyForecast : dailyForecast).map((item, index) => (
                 <ForecastItemComponent
                   key={index}
+                  glassPanel
                   time={item.time}
                   temperature={item.temperature}
                   condition={item.condition}
