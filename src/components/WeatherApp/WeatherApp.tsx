@@ -114,6 +114,9 @@ export const WeatherApp: React.FC = () => {
     getCurrentLocation(settings.temperatureUnit);
   };
 
+  const isDark = settings.theme === 'dark';
+  const glassClass = isDark ? styles.weatherGlassPanel : '';
+
   return (
     <div className={`${styles.app} ${styles[settings.theme]}`}>
       <div
@@ -209,14 +212,18 @@ export const WeatherApp: React.FC = () => {
         )}
 
         {currentWeather && (
-          <Card className={`${styles.weatherCard} ${styles.weatherGlassPanel}`}>
+          <Card className={`${styles.weatherCard} ${glassClass}`.trim()}>
             <div className={styles.weatherHeader}>
               <div className={styles.locationInfo}>
-                <MapPin size={16} className={styles.weatherGlassIcon} />
-                <Text variant="subheading" weight="semibold" color="white">
+                <MapPin size={16} className={isDark ? styles.weatherGlassIcon : styles.locationMapPin} />
+                <Text variant="subheading" weight="semibold" color={isDark ? 'white' : 'primary'}>
                   {currentWeather.location}
                 </Text>
-                <Text variant="body" color="white" className={styles.weatherGlassMuted}>
+                <Text
+                  variant="body"
+                  color={isDark ? 'white' : 'secondary'}
+                  className={isDark ? styles.weatherGlassMuted : styles.country}
+                >
                   {currentWeather.country}
                 </Text>
               </div>
@@ -238,37 +245,47 @@ export const WeatherApp: React.FC = () => {
                   alt={currentWeather.condition}
                   className={styles.weatherIcon}
                 />
-                <Text variant="heading" size="xlarge" color="white" className={styles.temperatureMain}>
+                <Text
+                  variant="heading"
+                  size="xlarge"
+                  color={isDark ? 'white' : 'primary'}
+                  className={styles.temperatureMain}
+                >
                   {currentWeather.temperature}{getTemperatureUnit(settings.temperatureUnit)}
                 </Text>
-                <Text variant="body" size="large" color="white" className={styles.condition}>
+                <Text
+                  variant="body"
+                  size="large"
+                  color={isDark ? 'white' : 'secondary'}
+                  className={styles.condition}
+                >
                   {currentWeather.condition}
                 </Text>
               </div>
               
               <div className={styles.weatherDetails}>
                 <WeatherDetail
-                  glassPanel
+                  glassPanel={isDark}
                   label="Feels like"
                   value={`${currentWeather.feelsLike}${getTemperatureUnit(settings.temperatureUnit)}`}
                 />
                 <WeatherDetail
-                  glassPanel
+                  glassPanel={isDark}
                   label="Humidity"
                   value={`${currentWeather.humidity}%`}
                 />
                 <WeatherDetail
-                  glassPanel
+                  glassPanel={isDark}
                   label="Wind Speed"
                   value={`${currentWeather.windSpeed} km/h`}
                 />
                 <WeatherDetail
-                  glassPanel
+                  glassPanel={isDark}
                   label="UV Index"
                   value={currentWeather.uvIndex.toString()}
                 />
                 <WeatherDetail
-                  glassPanel
+                  glassPanel={isDark}
                   label="Visibility"
                   value={`${currentWeather.visibility} km`}
                 />
@@ -278,7 +295,7 @@ export const WeatherApp: React.FC = () => {
         )}
 
         {(hourlyForecast.length > 0 || dailyForecast.length > 0) && (
-          <Card className={`${styles.forecastCard} ${styles.weatherGlassPanel}`}>
+          <Card className={`${styles.forecastCard} ${glassClass}`.trim()}>
             <div className={styles.forecastHeader}>
               <Button
                 variant={forecastMode === 'hourly' ? 'primary' : 'outline'}
@@ -302,7 +319,7 @@ export const WeatherApp: React.FC = () => {
               {(forecastMode === 'hourly' ? hourlyForecast : dailyForecast).map((item, index) => (
                 <ForecastItemComponent
                   key={index}
-                  glassPanel
+                  glassPanel={isDark}
                   time={item.time}
                   temperature={item.temperature}
                   condition={item.condition}
