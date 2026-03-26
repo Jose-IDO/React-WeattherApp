@@ -87,6 +87,39 @@
   box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.2);
 }
 
+/* Inside frosted glass cards — overrides solid dark field */
+.searchInput.searchInputFrosted {
+  background: rgba(255, 255, 255, 0.48);
+  border-color: rgba(255, 255, 255, 0.62);
+  color: #1e293b;
+}
+
+.searchInput.searchInputFrosted::placeholder {
+  color: #64748b;
+}
+
+.searchInput.searchInputFrosted:focus {
+  background: rgba(255, 255, 255, 0.66);
+  border-color: #74b9ff;
+  box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.15);
+}
+
+:global(.dark) .searchInput.searchInputFrosted {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #f1f5f9;
+}
+
+:global(.dark) .searchInput.searchInputFrosted::placeholder {
+  color: #94a3b8;
+}
+
+:global(.dark) .searchInput.searchInputFrosted:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #74b9ff;
+  box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.22);
+}
+
 @media (max-width: 768px) {
   .searchContainer {
     flex-direction: column;

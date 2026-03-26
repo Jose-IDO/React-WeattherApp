@@ -11,6 +11,8 @@ export interface SearchBarProps {
   placeholder?: string;
   disabled?: boolean;
   isLoading?: boolean;
+  /** Match frosted glass cards (day/night) instead of solid/opaque field */
+  frosted?: boolean;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -20,7 +22,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onLocationClick,
   placeholder = 'Search for a city...',
   disabled = false,
-  isLoading = false
+  isLoading = false,
+  frosted = false
 }) => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !disabled && value.trim()) {
@@ -37,7 +40,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyPress={handleKeyPress}
-        className={styles.searchInput}
+        className={`${styles.searchInput} ${frosted ? styles.searchInputFrosted : ''}`.trim()}
         disabled={disabled}
       />
       <Button

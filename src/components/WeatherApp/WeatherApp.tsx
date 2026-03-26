@@ -138,7 +138,7 @@ export const WeatherApp: React.FC = () => {
       />
       
       <div className={styles.container}>
-        <Card className={styles.header} hover={false}>
+        <Card className={`${styles.header} ${glassClass}`.trim()} hover={false}>
           <div className={styles.headerContent}>
             <Text variant="heading" className={styles.appTitle}>
               <span className={styles.icon}>☁️</span>
@@ -174,7 +174,7 @@ export const WeatherApp: React.FC = () => {
           </div>
         </Card>
 
-        <Card className={styles.searchCard} hover={false}>
+        <Card className={`${styles.searchCard} ${glassClass}`.trim()} hover={false}>
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
@@ -182,6 +182,7 @@ export const WeatherApp: React.FC = () => {
             onLocationClick={handleLocationClick}
             disabled={isLoading}
             isLoading={isLoading}
+            frosted
           />
         </Card>
 
