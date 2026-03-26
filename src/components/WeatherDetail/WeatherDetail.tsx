@@ -7,20 +7,25 @@ export interface WeatherDetailProps {
   value: string | number;
   className?: string;
   glassPanel?: boolean;
+  /** When glassPanel: use light text on dark frosted panels vs dark text on light frosted panels */
+  isDarkGlass?: boolean;
 }
 
 export const WeatherDetail: React.FC<WeatherDetailProps> = ({
   label,
   value,
   className = '',
-  glassPanel = false
+  glassPanel = false,
+  isDarkGlass = true
 }) => {
+  const onFrostedGlass = glassPanel;
+  const frostedDark = onFrostedGlass && isDarkGlass;
   return (
-    <div className={`${styles.detailItem} ${glassPanel ? styles.glassPanel : ''} ${className}`}>
-      <Text variant="label" color={glassPanel ? 'white' : 'secondary'} className={styles.detailLabel}>
+    <div className={`${styles.detailItem} ${onFrostedGlass ? styles.glassPanel : ''} ${className}`}>
+      <Text variant="label" color={frostedDark ? 'white' : 'secondary'} className={styles.detailLabel}>
         {label}
       </Text>
-      <Text variant="body" weight="semibold" color={glassPanel ? 'white' : 'primary'} className={styles.detailValue}>
+      <Text variant="body" weight="semibold" color={frostedDark ? 'white' : 'primary'} className={styles.detailValue}>
         {value}
       </Text>
     </div>

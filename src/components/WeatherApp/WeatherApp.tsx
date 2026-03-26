@@ -115,7 +115,7 @@ export const WeatherApp: React.FC = () => {
   };
 
   const isDark = settings.theme === 'dark';
-  const glassClass = isDark ? styles.weatherGlassPanel : '';
+  const glassClass = styles.weatherGlassPanel;
 
   return (
     <div className={`${styles.app} ${styles[settings.theme]}`}>
@@ -265,27 +265,32 @@ export const WeatherApp: React.FC = () => {
               
               <div className={styles.weatherDetails}>
                 <WeatherDetail
-                  glassPanel={isDark}
+                  glassPanel
+                  isDarkGlass={isDark}
                   label="Feels like"
                   value={`${currentWeather.feelsLike}${getTemperatureUnit(settings.temperatureUnit)}`}
                 />
                 <WeatherDetail
-                  glassPanel={isDark}
+                  glassPanel
+                  isDarkGlass={isDark}
                   label="Humidity"
                   value={`${currentWeather.humidity}%`}
                 />
                 <WeatherDetail
-                  glassPanel={isDark}
+                  glassPanel
+                  isDarkGlass={isDark}
                   label="Wind Speed"
                   value={`${currentWeather.windSpeed} km/h`}
                 />
                 <WeatherDetail
-                  glassPanel={isDark}
+                  glassPanel
+                  isDarkGlass={isDark}
                   label="UV Index"
                   value={currentWeather.uvIndex.toString()}
                 />
                 <WeatherDetail
-                  glassPanel={isDark}
+                  glassPanel
+                  isDarkGlass={isDark}
                   label="Visibility"
                   value={`${currentWeather.visibility} km`}
                 />
@@ -319,7 +324,8 @@ export const WeatherApp: React.FC = () => {
               {(forecastMode === 'hourly' ? hourlyForecast : dailyForecast).map((item, index) => (
                 <ForecastItemComponent
                   key={index}
-                  glassPanel={isDark}
+                  glassPanel
+                  isDarkGlass={isDark}
                   time={item.time}
                   temperature={item.temperature}
                   condition={item.condition}

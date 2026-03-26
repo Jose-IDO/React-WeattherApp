@@ -58,6 +58,26 @@
   color: #ffffff !important;
 }
 
+:global(.light) .glassPanel {
+  background: rgba(255, 255, 255, 0.46);
+  backdrop-filter: blur(22px) saturate(190%);
+  -webkit-backdrop-filter: blur(22px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+}
+
+:global(.light) .glassPanel:hover {
+  background: rgba(255, 255, 255, 0.62);
+  border-color: rgba(116, 185, 255, 0.42);
+}
+
+:global(.light) .glassPanel .forecastTime {
+  color: #475569 !important;
+}
+
+:global(.light) .glassPanel .forecastTemp {
+  color: #0f172a !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
